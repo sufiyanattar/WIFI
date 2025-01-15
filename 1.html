@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Time and Date</title>
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background: linear-gradient(135deg, #957cb1, #1c4da3);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height:100vh;
+        color: #fff;
+      }
+
+      .container {
+        background: #fff;
+        color: #333;
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        width: 350px;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      .container h1{
+        margin-bottom: 20px;
+        font-size: 1.8em;
+        color: #020101;
+      }
+
+      .container h2 {
+        margin-bottom: 20px;
+        font-size: 1.5em;
+        color: #180f99;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #020202;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 10px 10px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        font-size: 16px;
+        
+      }
+
+      .button-group, #selection {
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 16px 25px; /* Increased padding */
+        border: none;
+        border-radius: 8px;
+        font-size: 16px; /* Increased font size */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      /* Color customization for specific buttons */
+      .submit-btn {
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
+        color: white;
+        align-items: right;
+        
+      }
+
+      /* Button colors for Edit Time and Date, Change Time Zone */
+      #selection button {
+        background: linear-gradient(135deg, #c96fdb, #0a0dcf); /* Blue gradient */
+        color: white;
+
+      }
+
+      .reset-btn {
+        background: linear-gradient(135deg, #f44336, #e00e0e);
+        color: white;
+      }
+
+      .back-btn {
+        background: linear-gradient(135deg, #ff9800, #f57c00);
+        color: white;
+        margin-top: 10px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* Fade-in animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Digital World Clock</h1>
+
+      <!-- Initial Selection Menu -->
+      <div id="selection">
+        <button onclick="showEditTimeDateForm()" class="submit-btn">Edit Time and Date</button>
+        <button onclick="showTimeZoneForm()" class="submit-btn">Change Time Zone</button>
+      </div>
+
+      <!-- Edit Time and Date Form -->
+      <div id="editTimeDateForm" class="hidden">
+        <h2>Edit Time and Date</h2>
+        <form id="timeDateForm">
+          <div class="input-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required />
+          </div>
+          <div class="input-group">
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required />
+          </div>
+          <div class="button-group">
+            <button type="submit" class="submit-btn">Submit</button>
+            <button type="button" class="reset-btn" onclick="resetChanges()">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Change Time Zone Form -->
+      <div id="timeZoneForm" class="hidden">
+        <h2>Change Time Zone</h2>
+        <form id="timeZoneSelectForm">
+          <div class="input-group">
+            <label for="timeZone">Select Time Zone:</label>
+            <select id="timeZone" name="timeZone" required>
+              <option value="">--Select--</option>
+              <option value="PST -8">Pacific Standard Time (PST -8)</option>
+              <option value="MST -7">Mountain Standard Time (MST -7)</option>
+              <option value="CST -6">Central Standard Time (CST -6)</option>
+              <option value="EST -5">Eastern Standard Time (EST -5)</option>
+              <option value="AST -4">Atlantic Standard Time (AST -4)</option>
+              <option value="BRT -3">Brasília Time (BRT -3)</option>
+              <option value="ART -3">Argentina Time (ART -3)</option>
+              <option value="GMT 0">Greenwich Mean Time (GMT +0)</option>
+              <option value="CET +1">Central European Time (CET +1)</option>
+              <option value="EET +2">Eastern European Time (EET +2)</option>
+              <option value="SAST +2">South Africa Standard Time (SAST +2)</option>
+              <option value="AST +3">Arabian Standard Time (AST +3)</option>
+              <option value="IST +5:30">Indian Standard Time (IST +5:30)</option>
+              <option value="CST +8">China Standard Time (CST +8)</option>
+              <option value="JST +9">Japan Standard Time (JST +9)</option>
+              <option value="AEST +10">Australian Eastern Standard Time (AEST +10)</option>
+              <option value="NZST +12">New Zealand Standard Time (NZST +12)</option>
+            </select>
+          </div>
+          <div class="button-group">
+            <button type="submit" class="submit-btn">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Back Button -->
+      <button onclick="goBack()" class="back-btn hidden" id="backButton">Back</button>
+    </div>
+
+    <script>
+      function showEditTimeDateForm() {
+        document.getElementById("selection").classList.add("hidden");
+        document.getElementById("editTimeDateForm").classList.remove("hidden");
+        document.getElementById("backButton").classList.remove("hidden");
+      }
+
+      function showTimeZoneForm() {
+        document.getElementById("selection").classList.add("hidden");
+        document.getElementById("timeZoneForm").classList.remove("hidden");
+        document.getElementById("backButton").classList.remove("hidden");
+      }
+
+      function goBack() {
+        document.getElementById("editTimeDateForm").classList.add("hidden");
+        document.getElementById("timeZoneForm").classList.add("hidden");
+        document.getElementById("selection").classList.remove("hidden");
+        document.getElementById("backButton").classList.add("hidden");
+      }
+
+      document.getElementById("timeDateForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+
+        if (!date || !time) {
+          alert("Please fill in both date and time.");
+          return;
+        }
+
+        const url = "http://your-rnwf11-endpoint";
+        const data = { date, time };
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert("Time and Date submitted successfully.");
+            } else {
+              alert("Failed to submit. Please try again.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("An error occurred while submitting the data.");
+          });
+      });
+
+      document.getElementById("timeZoneSelectForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const timeZone = document.getElementById("timeZone").value;
+
+        if (!timeZone) {
+          alert("Please select a time zone.");
+          return;
+        }
+
+        const url = "http://your-rnwf11-endpoint";
+        const data = { timeZone };
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert("Time Zone submitted successfully.");
+            } else {
+              alert("Failed to submit. Please try again.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("An error occurred while submitting the data.");
+          });
+      });
+
+      function resetChanges() {
+        document.getElementById("date").value = "";
+        document.getElementById("time").value = "";
+      }
+    </script>
+  </body>
+</html>
